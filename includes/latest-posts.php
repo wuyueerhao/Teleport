@@ -6,7 +6,7 @@
 == ------------------------------------------------------------------- ==
 */
 
-//add_action( 'widgets_init', 'beauty_register_latest_posts_widget' );
+add_action( 'widgets_init', 'beauty_register_latest_posts_widget' );
 
 function beauty_register_latest_posts_widget() {
 	register_widget( 'latest_posts_widget' );
@@ -20,7 +20,16 @@ function beauty_register_latest_posts_widget() {
 */
 
 class latest_posts_widget extends WP_Widget {
-	
+	function __construct() {
+		parent::__construct(
+			// Base ID of your widget
+			'latest_posts_widget', 
+			// Widget name will appear in UI
+			__('最新文章', 'wpb_widget_domain'), 
+			// Widget description
+			array( 'description' => __( '最新文章', 'wpb_widget_domain' ), ) 
+		);
+	}
 	function latest_posts_widget() {
 		
 		$args = array(
@@ -34,8 +43,8 @@ class latest_posts_widget extends WP_Widget {
 	function form( $instance ) {
 		
 		$defaults = array(
-			'title'			=> '',
-			'count'			=> '',
+			'title'			=> '最新文章',
+			'count'			=> '5',
 			'category'		=> '',
 			'show_photo'	=> 1
 		);

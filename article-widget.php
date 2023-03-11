@@ -7,8 +7,7 @@
 	if ( empty( $current_post['title'] ) ) {
 		$current_post['title'] = __( 'Untitled Article', 'beauty_dictionary' );
 	}	
-	// date		
-	$current_post['date'] = get_the_date( $smof_data['blog-date_format'] );	
+	
 	// thumbnail	
 	if ( $beauty_show_photo ) {
 		$current_post['show_photo'] = true;
@@ -43,7 +42,7 @@
 			</a>
 		</div>
 		<div class="post_meta">
-			<?php echo $current_post['date']; ?>
+			<?php the_time('Y-n-d'); ?>
 			| 
 			<span class="inherit-color-on_children accentcolor-text-on_children-on_hover">
 				<?php comments_popup_link(__('No comment', 'beauty_dictionary'), __('1 Comment', 'beauty_dictionary'), __('% Comments', 'beauty_dictionary')); ?>

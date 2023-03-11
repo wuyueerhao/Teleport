@@ -6,7 +6,7 @@
 == ------------------------------------------------------------------- ==
 */
 
-//add_action( 'widgets_init', 'beauty_register_popular_posts_widget' );
+add_action( 'widgets_init', 'beauty_register_popular_posts_widget' );
 
 function beauty_register_popular_posts_widget() {
 	register_widget( 'beauty_popular_posts_widget' );
@@ -20,7 +20,16 @@ function beauty_register_popular_posts_widget() {
 */
 
 class beauty_popular_posts_widget extends WP_Widget {
-	
+	function __construct() {
+		parent::__construct(
+			// Base ID of your widget
+			'beauty_popular_posts_widget', 
+			// Widget name will appear in UI
+			__('热门文章', 'wpb_widget_domain'), 
+			// Widget description
+			array( 'description' => __( '热门文章', 'wpb_widget_domain' ), ) 
+		);
+	}
 	function beauty_popular_posts_widget() {
 		
 		$args = array(

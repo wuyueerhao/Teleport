@@ -1784,6 +1784,10 @@ img.avatar {
 #sidebar .widget ul {
   padding-left: 0;
 }
+#sidebar .widget_latest_posts_widget ul,#sidebar .widget_beauty_popular_posts_widget ul {
+    display: flex;
+    flex-wrap: wrap;
+}
 #sidebar .widget li {
   font-size: 12px;
 }

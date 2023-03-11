@@ -365,8 +365,7 @@ add_filter( 'wp_list_categories', 'beauty_categories_filter' );
 if ( ! function_exists( 'beauty_widget_post_featured_image' ) ) {
 	function beauty_widget_post_featured_image() {		
 		global $post;
-		$width = WIDGET__PHOTO_WIDTH;
-		$height = WIDGET__PHOTO_HEIGHT;	
+		
 		$post_id = $post->ID;		
 		$image_url = wp_get_attachment_url( get_post_thumbnail_id(), 'full' );
 		$original_image_url = $image_url;
@@ -378,7 +377,7 @@ if ( ! function_exists( 'beauty_widget_post_featured_image' ) ) {
 		$image_css = 'attachment-post-thumbnail wp-post-image';			
 		$html = '';	
 		if ( $image_url ) {			
-			$resized_image_url = thumb_resizer( $image_url, $width, $height, true, true, false);			
+			$resized_image_url = thumb_resizer( $image_url,  true, true, false);			
 			if ( $resized_image_url ) {
 				$image_url = $resized_image_url;
 			}
@@ -389,7 +388,7 @@ if ( ! function_exists( 'beauty_widget_post_featured_image' ) ) {
 				$html .= '<img src="' . $image_url . '" alt="' . esc_attr( get_the_title($post_id) ) . '" class="' . $image_css . '" />';
 			}
 			else {
-				$html .= '<img src="' . $image_url . '" alt="' . esc_attr( get_the_title($post_id) ) . '" class="' . $image_css . '" style="width:' . $width . 'px;" />';
+				$html .= '<img src="' . $image_url . '" alt="' . esc_attr( get_the_title($post_id) ) . '" class="' . $image_css . '"  />';
 			}			
 			// link setup	
 			$html = '<a href="' . get_permalink($post->ID) . '" class="' . $hyperlink_css . '">' . $html . '</a>';			
