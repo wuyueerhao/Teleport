@@ -147,7 +147,9 @@ a {
 ins, a {
   text-decoration: none;
 }
-
+.content img{
+    max-width: 100%;
+}
 .link {
   color: #777;
   text-decoration: none;
