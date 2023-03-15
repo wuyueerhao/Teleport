@@ -14,7 +14,6 @@
 	<meta name="baidu-site-verification" content="zeBn2JteKL" />
 	<meta name="viewport" content="width=device-width"/><!-- for mobile -->
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
-	<link rel="shortcut icon" href="<?php bloginfo('template_url'); ?>/assets/images/favicon.ico" />
 	<!-- open graph protocl -->
 	<?php include('includes/seo.php'); ?>
 	<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo('stylesheet_url'); ?>" />
