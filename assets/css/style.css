@@ -147,6 +147,12 @@ a {
 ins, a {
   text-decoration: none;
 }
+
+.content img{
+    max-width: 100%;
+    height: auto;
+}
+
 .content img{
     max-width: 100%;
 }
