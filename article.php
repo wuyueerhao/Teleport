@@ -23,7 +23,13 @@
 	</header>
 	<section class="content" itemprop="articleBody">
 		<?php if (!post_password_required()) : ?>
-			<?php the_content(); ?>
+			<?php 
+			    if ( is_home() || is_front_page() ) {
+			        the_excerpt(); 
+			    } else if ( is_single() ) {
+			        the_content();
+			    }
+		    ?>
 			<?php if ( is_single() ) { tp_link_pages(); } ?>
 		<?php else : ?>
 			<?php tp_the_password_form(); ?>

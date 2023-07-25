@@ -1430,7 +1430,9 @@ header.pagetitle h1  {
   text-align: right;
 }
 
-
+.md-list-item{
+  margin-left: 15px;
+}
 
 /* * * * * Categories * * * * */
 .categories .content ul {

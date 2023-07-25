@@ -132,6 +132,34 @@ function tp_paging($p = 2) {
 	echo $chain;
 }
 
+//首页文章摘要字数控制
+function custom_excerpt_length() {
+    return 300;
+}
+add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
+function new_excerpt_more($more) {
+   global $post;
+   return '...<a href="'. get_permalink($post->ID) . '"> 阅读全文>> </a>';
+}
+add_filter('excerpt_more', 'new_excerpt_more');
+
+
+//获取文章第一张图篇
+function get_post_first_image($post_id) {
+    $post_content = get_post_field('post_content', $post_id);
+
+    // Check if the post has an image
+    $image = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post_content, $matches);
+    if ($image) {
+        return $matches[1][0];
+    } else {
+        // Return a default image if no image found in post
+        return get_template_directory_uri() . "/images/no-image.jpg";
+    }
+}
+
+
+
 //最新文章
 function tp_recent_posts($number) {
 	$chain = '';
@@ -141,6 +169,81 @@ function tp_recent_posts($number) {
 	}
 	echo $chain;
 }
+
+
+//最新文章小组件
+class WP_Custom_Recent_Posts_Widget extends WP_Widget_Recent_Posts {
+
+    public function widget( $args, $instance ) {
+    	// 添加自定义的类名到小组件的 div
+    	$args['before_widget'] = str_replace('class="', 'class=" ', $args['before_widget']);
+        if ( ! isset( $args['widget_id'] ) ) {
+            $args['widget_id'] = $this->id;
+        }
+
+        $title = ( ! empty( $instance['title'] ) ) ? $instance['title'] : __( 'Recent Posts' );
+
+        $title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
+
+        $number = ( ! empty( $instance['number'] ) ) ? absint( $instance['number'] ) : 5;
+        if ( ! $number ) {
+            $number = 5;
+        }
+
+        $r = new WP_Query(
+            apply_filters(
+                'widget_posts_args',
+                array(
+                    'posts_per_page'      => $number,
+                    'no_found_rows'       => true,
+                    'post_status'         => 'publish',
+                    'ignore_sticky_posts' => true,
+                ),
+                $instance
+            )
+        );
+
+        if ( ! $r->have_posts() ) {
+            return;
+        }
+
+        echo $args['before_widget'];
+        if ( $title ) {
+            echo $args['before_title'] . $title . $args['after_title'];
+        }
+
+        echo '<ul>';
+        while ( $r->have_posts() ) {
+            $r->the_post();
+            echo '<li><div class="post_thumbnail"><a href="' . get_the_permalink() . '">';
+            if ( has_post_thumbnail() ) {
+                the_post_thumbnail();
+            } else {
+                $first_image = get_post_first_image(get_the_ID());
+                echo '<img src="' . $first_image . '" />';
+            }
+            echo '</a></div><div class="post_details"><div class="post_title"><a href="' . get_the_permalink() . '" title="'. get_the_title() . '">';
+            echo get_the_title();
+            echo '</a></div>';
+            echo '<div class="post_meta">';
+            echo the_time('Y-n-j | ');
+            echo '<span class="inherit-color-on_children accentcolor-text-on_children-on_hover"><a href="' . get_comments_link() .'">';
+            echo comments_number('No Comment', '1 Comment', '% Comments'); 
+            echo '</a></span></div></li>';
+        }
+        echo '</ul>';
+
+        echo $args['after_widget'];
+    }
+}
+
+function wp_custom_register_widgets() {
+    register_widget( 'WP_Custom_Recent_Posts_Widget' );
+}
+add_action( 'widgets_init', 'wp_custom_register_widgets' );
+
+
+
 
 //最新评论
 function tp_recent_comments($number) {
